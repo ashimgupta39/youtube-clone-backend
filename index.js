@@ -7,7 +7,7 @@ const PORT = 5000;
 const app = express();
 
 const corsOptions = {
-    origin: ["http://localhost:3000","https://youtube-clone-nine-vert.vercel.app/"],
+    origin: ["http://localhost:3000","https://youtube-clone-nine-vert.vercel.app/","https://youtube-clone-37armu1o9-ashim-guptas-projects.vercel.app/","https://youtube-clone-git-main-ashim-guptas-projects.vercel.app/"],
     method: ["GET","POST"]
 };
 app.use(cors(corsOptions));
