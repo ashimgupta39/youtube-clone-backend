@@ -1,10 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
-import https from 'https'
+import https from 'https';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const PORT = 5000;
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, 'build')));
 
 const corsOptions = {
     origin: ["http://localhost:3000","https://youtube-clone-nine-vert.vercel.app/","https://youtube-clone-37armu1o9-ashim-guptas-projects.vercel.app/","https://youtube-clone-git-main-ashim-guptas-projects.vercel.app/"],
@@ -14,8 +20,11 @@ app.use(cors(corsOptions));
 
 const requestEndpoint = "https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.get('/getSearchResults', async (req, res) => {
-    // console.log(requestEndpoint+req.query.q)
     try {
         const response = await axios.get(requestEndpoint+req.query.q, { 
             httpsAgent: new https.Agent({ rejectUnauthorized: false }) })
@@ -27,6 +36,4 @@ app.get('/getSearchResults', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Example app listening at http://localhost:${PORT}`);
-});
+export default app;
